@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>YouTube 播放測試</title>
+</head>
+<body>
+  <h2>青空のメモリー 播放測試</h2>
+
+  <div id="player"></div>
+
+  <button onclick="player.playVideo()">▶ 播放</button>
+  <button onclick="player.pauseVideo()">⏸ 暫停</button>
+
+  <p id="status">等待播放器載入...</p>
+
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    let player;
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player("player", {
+        width: 480,
+        height: 270,
+        videoId: "mNpIzaxDBE4",
+        playerVars: {
+          autoplay: 0,
+          playsinline: 1
+        },
+        events: {
+          onReady: () => {
+            document.getElementById("status").textContent =
+              "播放器已準備完成";
+          },
+          onStateChange: (event) => {
+            if (event.data === YT.PlayerState.PLAYING) {
+              document.getElementById("status").textContent =
+                "正在播放";
+            }
+          },
+          onError: (event) => {
+            document.getElementById("status").textContent =
+              "YouTube 錯誤代碼：" + event.data;
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>
